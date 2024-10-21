@@ -1,7 +1,8 @@
 NAME = malloc
 
 SRCS = ./main.c\
-		./sources/malloc.c\
+		./sources/ft_malloc.c\
+		./sources/init.c\
 
 OBJS = $(SRCS:.c=.o)
 
