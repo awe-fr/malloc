@@ -2,44 +2,27 @@
 
 extern t_map alloc_map;
 
-t_alloc	*get_alloc(long int psize) {
-	t_alloc alloc;
-	t_chunk chunk;
+t_chunk	*get_alloc(long int psize) {
+	void *allocation = mmap(NULL, psize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	t_chunk *chunk = allocation;
 
-	chunk.allocable = true;
-	chunk.size = psize;
-	chunk.address = mmap(NULL, psize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-	chunk.next = NULL;
+	chunk->allocable = true;
+	chunk->size = psize - sizeof(t_chunk);
+	chunk->next = NULL;
 
-	alloc.count = 0;
-	alloc.chunks = &chunk;
-	alloc.next = NULL;
-
-	t_alloc *ret = &alloc;
-
-	return (ret);
+	return (chunk);
 }
 
-t_alloc	*get_tiny() {
+t_chunk	*get_tiny() {
 	long int psize = sysconf(_SC_PAGE_SIZE);
-	t_alloc *alloc = get_alloc(psize * 200);
+	t_chunk *alloc = get_alloc(psize * 400);
 
 	return (alloc);
 }
 
-t_alloc	*get_small() {
+t_chunk	*get_small() {
 	long int psize = sysconf(_SC_PAGE_SIZE);
-	t_alloc *alloc = get_alloc(psize * 4 * 200);
-
-	return (alloc);
-}
-
-t_alloc	*get_large(size_t size) {
-	long int psize = sysconf(_SC_PAGE_SIZE);
-	int pnumber = size / psize;
-	pnumber += 1;
-	
-	t_alloc *alloc = get_alloc(pnumber * psize);
+	t_chunk *alloc = get_alloc(psize * 4 * 200);
 
 	return (alloc);
 }

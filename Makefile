@@ -3,6 +3,7 @@ NAME = malloc
 SRCS = ./main.c\
 		./sources/ft_malloc.c\
 		./sources/init.c\
+		./sources/print_memory.c\
 
 OBJS = $(SRCS:.c=.o)
 

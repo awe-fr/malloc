@@ -1,5 +1,10 @@
 #include "./header/ft_malloc.h"
 
 int	main() {
-    void *test = ft_malloc(10);
+    for(int i = 0; i < 10000; i++) {
+        ft_malloc(4097);
+    }
+    ft_malloc(1000000);
+    ft_malloc(1000000);
+    show_alloc_mem();
 }
