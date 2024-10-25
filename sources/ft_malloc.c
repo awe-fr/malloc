@@ -51,6 +51,8 @@ void	*alloc_large(size_t size) {
 		size = ((size / psize) * psize + psize);
 	}
 	void *allocation = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	if (allocation == MAP_FAILED)
+		return (NULL);
 	t_chunk *chunk = allocation;
 	
 	chunk->allocable = false;
@@ -67,7 +69,8 @@ void	*alloc_large(size_t size) {
 void	*ft_malloc(size_t size) { //change name to malloc (header, file and function)
 	static bool init = false;
 	if (init == false) {
-		init_malloc();
+		if (init_malloc() == -1)
+			return (NULL);
 		init = true;
 	}
 	long int psize = sysconf(_SC_PAGE_SIZE);

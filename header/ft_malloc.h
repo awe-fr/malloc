@@ -28,8 +28,7 @@ typedef struct s_map {
 t_chunk	*get_alloc(long int psize);
 t_chunk	*get_tiny();
 t_chunk	*get_small();
-t_chunk	*get_large(size_t size);
-void	init_malloc();
+int	init_malloc();
 
 ////////////////Print////////////////
 

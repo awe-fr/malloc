@@ -4,6 +4,8 @@ extern t_map alloc_map;
 
 t_chunk	*get_alloc(long int psize) {
 	void *allocation = mmap(NULL, psize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	if (allocation == MAP_FAILED)
+		return (NULL);
 	t_chunk *chunk = allocation;
 
 	chunk->allocable = true;
@@ -27,8 +29,11 @@ t_chunk	*get_small() {
 	return (alloc);
 }
 
-void	init_malloc() {
+int	init_malloc() {
 	alloc_map.tiny = get_tiny();
 	alloc_map.small = get_small();
 	alloc_map.large = NULL;
+	if (alloc_map.tiny == NULL || alloc_map.small == NULL)
+		return (-1);
+	return (0);
 }
