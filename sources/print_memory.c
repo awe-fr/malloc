@@ -56,9 +56,9 @@ void	print_alloc(t_chunk *chunk) {
 		print_alloc(chunk->next);
 	else {
 		t_chunk *next_chunk = chunk->next;
-		print_address((char *)chunk + sizeof(t_chunk));
+		print_address((void *)((char *)chunk + sizeof(t_chunk)));
 		write(1, " - ", 3);
-		print_address((char *)chunk + sizeof(t_chunk) + chunk->size);
+		print_address((void *)((char *)chunk + sizeof(t_chunk) + chunk->size));
 		write(1, " : ", 3);
 		putnbr(chunk->size);
 		write(1, " bytes\n", 7);
