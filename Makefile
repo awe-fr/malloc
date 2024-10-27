@@ -5,6 +5,7 @@ SRCS = ./main.c\
 		./sources/init.c\
 		./sources/print_memory.c\
 		./sources/ft_free.c\
+		./sources/ft_realloc.c\
 
 OBJS = $(SRCS:.c=.o)
 
