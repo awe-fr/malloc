@@ -50,29 +50,33 @@ void	putnbr(size_t nb)
 }
 
 void	print_alloc(t_chunk *chunk) {
-	if (chunk == NULL)
-		return ;
-	if (chunk->allocable == true)
-		print_alloc(chunk->next);
-	else {
-		t_chunk *next_chunk = chunk->next;
-		print_address((void *)((char *)chunk + sizeof(t_chunk)));
-		write(1, " - ", 3);
-		print_address((void *)((char *)chunk + sizeof(t_chunk) + chunk->size));
-		write(1, " : ", 3);
-		putnbr(chunk->size);
-		write(1, " bytes\n", 7);
-		print_alloc(chunk->next);
+	while (chunk != NULL) {
+		if (chunk->allocable == true)
+			chunk = chunk->next;
+		else {
+			t_chunk *next_chunk = chunk->next;
+			print_address((void *)((char *)chunk + sizeof(t_chunk)));
+			write(1, " - ", 3);
+			print_address((void *)((char *)chunk + sizeof(t_chunk) + chunk->size));
+			write(1, " : ", 3);
+			putnbr(chunk->size);
+			write(1, " bytes\n", 7);
+			chunk = chunk->next;
+		}
 	}
 }
 
-int	count_bytes(t_chunk *chunk) {
-	if (chunk == NULL)
-		return (0);
-	if (chunk->allocable == true)
-		return (count_bytes(chunk->next));
-	else
-		return (count_bytes(chunk->next) + chunk->size);
+size_t	count_bytes(t_chunk *chunk) {
+	size_t count = 0;
+	while (chunk != NULL) {
+		if (chunk->allocable == true)
+			chunk = chunk->next;
+		else {
+			count += chunk->size;
+			chunk = chunk->next;
+		}
+	}
+	return (count);
 }
 
 void	print_total_bytes() {

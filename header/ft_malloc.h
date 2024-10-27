@@ -8,6 +8,7 @@
 # include <stdbool.h>
 # include <unistd.h>
 #include <stdio.h> //to remove
+#include <stdlib.h> //to remove
 
 ///////////////Struct///////////////
 
@@ -37,7 +38,7 @@ void	print_address(void *num);
 void	putnbr_rec(size_t nbpos);
 void	putnbr(size_t nb);
 void	print_alloc(t_chunk *chunk);
-int	count_bytes(t_chunk *chunk);
+size_t	count_bytes(t_chunk *chunk);
 void	print_total_bytes();
 void	show_alloc_mem();
 
