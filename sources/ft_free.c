@@ -53,7 +53,7 @@ void	free_stack(t_chunk *chunk, long int psize) {
 	if (chunk->size % 8 != 0)
 		chunk->size = ((chunk->size / 8) * 8 + 8);
 	t_chunk *prev;
-	if (chunk->size <= psize)
+	if (chunk->size <= (size_t)psize)
 		prev = find_prev(alloc_map.tiny, chunk);
 	else
 		prev = find_prev(alloc_map.small, chunk);
@@ -61,20 +61,21 @@ void	free_stack(t_chunk *chunk, long int psize) {
 		return ;
 	else if (prev == chunk)
 		glue_front(chunk);
-	else
+	else {
 		glue_front(chunk);
 		glue_back(chunk, prev);
+	}
 	return ;
 }
 
-void	ft_free(void *ptr) { //change name to free (header, file and function)
+void	ft_free(void *ptr) {
 	if (ptr == NULL)
 		return ;
 
 	long int psize = sysconf(_SC_PAGE_SIZE);
 	t_chunk *chunk = (t_chunk *)((char *)ptr - sizeof(t_chunk));
 	
-	if (chunk->size <= psize * 4) {
+	if (chunk->size <= (size_t)psize * 4) {
 		free_stack(chunk, psize);
 	}
 	else

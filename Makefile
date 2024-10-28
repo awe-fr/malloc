@@ -1,24 +1,32 @@
-NAME = malloc
+ifeq ($(HOSTTYPE),)
+HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
 
-SRCS = ./main.c\
-		./sources/ft_malloc.c\
-		./sources/init.c\
-		./sources/print_memory.c\
-		./sources/ft_free.c\
+NAME = libft_malloc_$(HOSTTYPE).so
+
+LINK = libft_malloc.so
+
+SRCS =	./sources/print_memory.c\
 		./sources/ft_realloc.c\
+		./sources/ft_malloc.c\
+		./sources/ft_free.c\
+		./sources/init.c\
 
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS = -g
+CFLAGS = -Wall -Wextra -Werror -g -fPIC
 
 RM = rm -f
 
-all:			$(NAME)
+all:			$(NAME) $(LINK)
 
 $(NAME):		$(OBJS)
-				$(CC) $(OBJS) -o $(NAME)
+				$(CC) $(OBJS) -shared -o $(NAME) $(CFLAGS)
+
+$(LINK):		$(NAME)
+				ln -sf $(NAME) $(LINK)
 
 %.o: 			%.c
 				$(CC) $(CFLAGS) -c $< -o $@
@@ -27,7 +35,7 @@ clean:
 			$(RM) $(OBJS)
 			
 fclean:		clean
-			$(RM) $(NAME)
+			$(RM) $(NAME) $(LINK)
 			
 re:			fclean all
 

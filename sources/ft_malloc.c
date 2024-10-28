@@ -98,7 +98,7 @@ void	*alloc_large(size_t size) {
 	return((void *)((char *)chunk + sizeof(t_chunk)));
 }
 
-void	*ft_malloc(size_t size) { //change name to malloc (header, file and function)
+void	*ft_malloc(size_t size) { // change name to malloc (header, file and function)
 	static bool init = false;
 	if (init == false) {
 		if (init_malloc() == -1)
@@ -108,9 +108,9 @@ void	*ft_malloc(size_t size) { //change name to malloc (header, file and functio
 	long int psize = sysconf(_SC_PAGE_SIZE);
 	if (size == 0)
 		return (NULL);
-	if (size <= psize)
+	if (size <= (size_t)psize)
 		return (alloc_tiny(size));
-	else if (size <= (psize * 4))
+	else if (size <= ((size_t)psize * 4))
 		return(alloc_small(size));
 	else
 		return(alloc_large(size));

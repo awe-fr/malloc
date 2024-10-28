@@ -26,7 +26,6 @@ void	*realloc_large(t_chunk *chunk, void *ptr, size_t size) {
 	void *new_alloc = ft_malloc(size);
 	if (new_alloc == NULL)
 		return (NULL);
-	new_alloc = my_memcpy(new_alloc, ptr, size);
 	if (size < chunk->size)
 		new_alloc = my_memcpy(new_alloc, ptr, size);
 	else
@@ -46,7 +45,6 @@ void	*realloc_smaller(t_chunk *chunk, void *ptr, size_t size) {
 	void *new_alloc = ft_malloc(size);
 	if (new_alloc == NULL)
 		return (NULL);
-	new_alloc = my_memcpy(new_alloc, ptr, size);
 	if (size < chunk->size)
 		new_alloc = my_memcpy(new_alloc, ptr, size);
 	else
@@ -59,14 +57,14 @@ void	*realloc_sort(t_chunk *chunk, void *ptr, size_t size) {
 	long int psize = sysconf(_SC_PAGE_SIZE);
 	if (chunk->size == size)
 		return (ptr);
-	if (chunk->size <= psize * 4) {
+	if (chunk->size <= (size_t)psize * 4) {
 		return (realloc_smaller(chunk, ptr, size));
 	}
 	else
 		return (realloc_large(chunk, ptr, size));
 }
 
-void	*ft_realloc(void *ptr, size_t size) {
+void	*ft_realloc(void *ptr, size_t size) { // change name to realloc (header, file and function)
 	if (ptr == NULL)
 		return(ft_malloc(size));
 	if (size == 0){
