@@ -98,7 +98,7 @@ void	*alloc_large(size_t size) {
 	return((void *)((char *)chunk + sizeof(t_chunk)));
 }
 
-void	*ft_malloc(size_t size) { // change name to malloc (header, file and function)
+void	*ft_malloc(size_t size) {
 	static bool init = false;
 	if (init == false) {
 		if (init_malloc() == -1)

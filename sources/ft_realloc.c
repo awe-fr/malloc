@@ -64,7 +64,7 @@ void	*realloc_sort(t_chunk *chunk, void *ptr, size_t size) {
 		return (realloc_large(chunk, ptr, size));
 }
 
-void	*ft_realloc(void *ptr, size_t size) { // change name to realloc (header, file and function)
+void	*ft_realloc(void *ptr, size_t size) {
 	if (ptr == NULL)
 		return(ft_malloc(size));
 	if (size == 0){
